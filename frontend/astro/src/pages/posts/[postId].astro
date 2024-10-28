@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/LayoutDemo.astro'
+
+type PostT = {
+  id: number
+}
+
+export async function getStaticPaths() {
+  const res = await fetch(`http://host.docker.internal:8000/wp-json/wp/v2/posts`)
+  const datas = (await res.json()) as Array<PostT>
+  return datas.map((content) => ({
+    params: {
+      postId: content.id,
+    },
+  }))
+}
+
+const { postId } = Astro.params;
+const res = await fetch(`http://host.docker.internal:8000/wp-json/wp/v2/posts/${postId}`)
+const post = await res.json()
+---
+
+<Layout title={post.title.rendered}>
+  <div>
+    <p>ID: {post.id}</p>
+    <p>Title: {post.title.rendered}</p>
+    <Fragment set:html={post.content.rendered} />
+  </div>
+</Layout>
