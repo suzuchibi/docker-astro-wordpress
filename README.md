@@ -1,31 +1,46 @@
 # Docker + Astro + Wordpressのローカル環境の構築
 
-日本だとヘッドレスCMSといえば「micro CMS」がほぼ主流ではありますが、元々Wordpressで運用していて、リニューアル時WordpressのCMSはそのまま利用したいというニーズが結構あります。
-WordpressをヘッドレスCMSとして利用し、AstroでSSGサイトを運用するローカル環境をDockerで構築しました。
-
  - PHP v8.1
  - Mysql v8.0
  - Wordpress v6.6.2
  - Node.js v20.18
- - Astro
+ - Astro v4.16
 
 ## ディレクトリ構成
 
 ```
-backend/
-　┣ mysql/
-　　　┣ .data/ /* DBデータディレクトリ */
-　　　┗ my.conf
-frontend/
-　┣ astro/
-　┗ Dockerfile
-docker-compose.yml
+/
+├── .vscode/
+├── backend/
+│   └── mysql/
+│       ├── .data/ /* DBデータディレクトリ */
+│       └── my.conf
+├── frontend/
+│   ├── astro/
+│   └── Dockerfile
+└── docker-compose.yml
 ```
 
 ## コマンド操作
+
 dockerコンテナ起動
 ```
 docker compose up -d
+```
+
+### Astro起動
+
+Astroコンテナログイン
+```
+docker compose exec astro sh
+```
+`exit`でコンテナログアウト
+```
+/app # exit
+```
+Astroローカル起動
+```
+npm run dev
 ```
 
 ## バックエンドの構築
